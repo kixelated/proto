@@ -2,31 +2,7 @@ package proto
 
 import (
 	"math"
-	"reflect"
 )
-
-func Encode(data []byte, x interface{}) []byte {
-	v := reflect.ValueOf(x)
-
-	switch v.Kind() {
-	case reflect.Bool:
-		return EncodeBool(data, v.Bool())
-	case reflect.Int8, reflect.Int16, reflect.Int32:
-		return EncodeSInt32(data, int32(v.Int()))
-	case reflect.Int, reflect.Int64:
-		return EncodeSInt64(data, v.Int())
-	case reflect.Uint8, reflect.Uint16, reflect.Uint32:
-		return EncodeUInt32(data, uint32(v.Uint()))
-	case reflect.Uint, reflect.Uint64:
-		return EncodeUInt64(data, v.Uint())
-	case reflect.Float32:
-		return EncodeFloat32(data, float32(v.Float()))
-	case reflect.Float64:
-		return EncodeFloat64(data, v.Float())
-	default:
-		panic("unsupported")
-	}
-}
 
 func EncodeInt(data []byte, x int) []byte {
 	// TODO Optimize
@@ -64,6 +40,11 @@ func EncodeUInt(data []byte, x uint) []byte {
 	} else { // x < 1 << 70
 		return append(data, byte(x)|0x80, byte(x>>7)|0x80, byte(x>>14)|0x80, byte(x>>21)|0x80, byte(x>>28)|0x80, byte(x>>35)|0x80, byte(x>>42)|0x80, byte(x>>49)|0x80, byte(x>>56)|0x80, byte(x>>63))
 	}
+}
+
+func EncodeSInt(data []byte, x int) []byte {
+	// TODO Optimize
+	return EncodeSInt64(data, int64(x))
 }
 
 func EncodeInt32(data []byte, x int32) []byte {

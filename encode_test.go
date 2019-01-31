@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/kixelated/protobuf"
+	"github.com/kixelated/proto"
 )
 
 func TestUInt32(t *testing.T) {
