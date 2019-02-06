@@ -85,6 +85,6 @@ func SizeBytes(x []byte) (n int) {
 	return len(x)
 }
 
-func SizeTag(id int, t WireType) (n int) {
-	return SizeUInt64(uint64(id<<3) | uint64(t))
+func SizeTag(id int) (n int) {
+	return SizeUInt64(uint64(id<<3))
 }
